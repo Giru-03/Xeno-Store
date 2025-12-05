@@ -16,20 +16,7 @@ This project is a multi-tenant analytics platform designed to ingest data from S
 
 The system follows a decoupled architecture with a separate frontend, backend API, and background worker service.
 
-```mermaid
-graph TD
-    User[User (Browser)] -->|HTTPS| Frontend[Frontend (React + Vite)]
-    Frontend -->|REST API| Backend[Backend API (Express.js)]
-    
-    subgraph "Backend Services"
-        Backend -->|Auth & Queries| DB[(PostgreSQL)]
-        Backend -->|Enqueue Jobs| Redis[(Redis)]
-        Worker[Ingestion Worker] -->|Dequeue Jobs| Redis
-        Worker -->|Fetch Data| Shopify[Shopify API]
-        Shopify -->|Webhooks| Backend
-        Worker -->|Upsert Data| DB
-    end
-```
+![Architecture Diagram](sitepic/architecture.png)
 
 ### Tech Stack
 - **Frontend**: React.js, Vite, TailwindCSS, Recharts, React-Hot-Toast
@@ -62,6 +49,9 @@ graph TD
    DATABASE_URL=postgres://user:password@localhost:5432/xeno_store
    REDIS_URL=redis://localhost:6379
    JWT_SECRET=your_super_secret_key
+   SHOP_DOMAIN=your_store_domain
+   SHOPIFY_ACCESS_TOKEN=your_token
+   ADMIN_SECRET_KEY=your_key
    ```
 4. Start the server (this will also sync the database models):
    ```bash
@@ -87,6 +77,22 @@ graph TD
    npm run dev
    ```
 
+### 3. Seeding Data (Optional)
+If you need dummy data in your **Shopify Store** for testing, you can use the included seeder script.
+1. Ensure your `.env` in `backend/` has `SHOP_DOMAIN` and `SHOPIFY_ACCESS_TOKEN`.
+2. Run the seeder:
+   ```bash
+   cd backend
+   node seed.js
+   ```
+   *Warning: This will create real products and orders in your Shopify store.*
+
+## ☁️ Deployment
+
+The project is configured for deployment on **Vercel**.
+- Both `frontend` and `backend` directories contain `vercel.json` configuration files.
+- You can deploy them as separate projects or a monorepo on Vercel.
+
 ---
 
 ## 📡 API Endpoints
@@ -111,8 +117,12 @@ graph TD
 The database uses a multi-tenant design where `TenantId` is a foreign key in all data tables.
 
 ### `Tenants`
-- Stores authentication details and configuration for each Shopify store.
-- **Fields**: `id`, `shopifyDomain`, `accessToken`, `shopName`, `email`, `password`.
+- Stores configuration for each Shopify store.
+- **Fields**: `id`, `shopifyDomain`, `accessToken`, `shopName`.
+
+### `Accounts`
+- Stores user authentication credentials linked to a Tenant.
+- **Fields**: `id`, `email`, `password`, `TenantId`.
 
 ### `Customers`
 - Stores customer profiles.
