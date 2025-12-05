@@ -34,8 +34,8 @@ const Login = ({ setToken, setShopName }) => {
             
             <div className="relative bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800 w-full max-w-md backdrop-blur-sm">
                 <div className="text-center mb-8">
-                    <div className="bg-indigo-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-indigo-400">
-                        <img src="/favicon.svg" alt="logo" />
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-indigo-400">
+                        <img src="/favicon.svg" alt="logo"/>
                     </div>
                     <h2 className="text-3xl font-bold text-white tracking-tight">Xeno Insights</h2>
                     <p className="text-slate-400 mt-2">Sign in to your analytics dashboard</p>
