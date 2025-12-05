@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogOut, ShoppingBag } from 'lucide-react';
+import { LogOut, ShoppingBag } from 'lucide-react';
 
 const Navbar = ({ shopName, onLogout }) => {
     return (
@@ -7,7 +7,7 @@ const Navbar = ({ shopName, onLogout }) => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center gap-3">
                         <div className="bg-indigo-600 p-2 rounded-lg">
-                            <LayoutDashboard className="text-white h-5 w-5" />
+                            <img src="/favicon.svg" alt="logo" />
                         </div>
                         <span className="font-bold text-xl text-white tracking-tight">Xeno<span className="text-indigo-400">Insights</span></span>
                     </div>
