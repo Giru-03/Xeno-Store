@@ -10,8 +10,14 @@ const syncRoutes = require('./routes/syncRoutes');
 const webhookRoutes = require('./routes/webhookRoutes');
 
 // Start Worker (Only in non-serverless environments or if explicitly enabled)
-if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_WORKER === 'true') {
-    require('./workers/ingestionWorker');
+// We explicitly skip this on Vercel to prevent startup crashes or timeouts
+if (!process.env.VERCEL && (process.env.NODE_ENV !== 'production' || process.env.ENABLE_WORKER === 'true')) {
+    try {
+        require('./workers/ingestionWorker');
+        console.log('Worker started');
+    } catch (e) {
+        console.warn('Failed to start worker:', e.message);
+    }
 }
 
 const app = express();
@@ -20,6 +26,9 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
+// Health Check
+app.get('/', (req, res) => res.send('Xeno Store Backend is Running!'));
 
 // API Routes
 app.use('/api/auth', authRoutes);
