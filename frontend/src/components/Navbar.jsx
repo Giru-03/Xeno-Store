@@ -5,9 +5,9 @@ const Navbar = ({ shopName, onLogout }) => {
         <nav className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
                         <div className="p-2 rounded-lg">
-                            <img src='/favicon.svg' alt='logo' className="text-white h-5 w-5" />
+                            <img src='/favicon.svg' alt='logo' className="h-7 w-7" />
                         </div>
                         <span className="font-bold text-xl text-white tracking-tight">Xeno<span className="text-indigo-400">Insights</span></span>
                     </div>
